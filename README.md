@@ -28,5 +28,6 @@ chit = 0.1*pi;
 U = sys.OAT(chit,"z");
 SSS = U*SCS;
 [Q1,h1] = bloch(SSS);
-```matlab
+```
+
 ![Bloch sphere of SSS](src/SSS.png) 
