@@ -1,4 +1,4 @@
-function [Q, h,is2DView] = bloch_v2(state, views)
+function [Q, h,is2DView] = bloch(state, views)
     % calculate the Husimi-Q function and plot
     Q = HusimiQ(state);
     % Check if views is provided and is a valid string
@@ -21,20 +21,20 @@ function Q = HusimiQ(state)
     n = 100;     % Husimi grid points
     theta = linspace(0,pi,n);
     phi = linspace(0,2*pi,n);
-    css = zeros(N+1,1,n,n);
+    SCS = zeros(N+1,1,n,n);
     
     if shape(2) == 1
         for i = 1:n
             for j = 1:n
-                css(:,:,i,j) = sys.CSS(theta(i),phi(j));
-                Q(i,j) = abs(css(:,:,i,j)'*state)^2; % Husimi-Q function for vector
+                SCS(:,:,i,j) = sys.SCS(theta(i),phi(j));
+                Q(i,j) = abs(SCS(:,:,i,j)'*state)^2; % Husimi-Q function for vector
             end
         end
     elseif shape(1) == shape(2)
         for i = 1:n
             for j = 1:n
-                css(:,:,i,j) = sys.CSS(theta(i),phi(j));
-                rhoc = css(:,:,i,j)*css(:,:,i,j)';
+                SCS(:,:,i,j) = sys.SCS(theta(i),phi(j));
+                rhoc = SCS(:,:,i,j)*SCS(:,:,i,j)';
                 Q(i,j) = trace(rhoc*state); % Husimi-Q function for density matrix
             end
         end

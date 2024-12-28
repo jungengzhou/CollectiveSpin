@@ -63,7 +63,7 @@ classdef DickeTools < handle
         end
 
 
-        function state = CSS(obj,theta,phi)
+        function state = SCS(obj,theta,phi)
            state = zeros(obj.N+1,1);
            state(1,1) = 1; 
            state = obj.Rz(phi) * obj.Ry(theta)*state;
@@ -82,7 +82,7 @@ classdef DickeTools < handle
         end
 
         function state = CAT(obj,theta,phi)
-           state = obj.CSS(theta,phi) + obj.CSS(pi-theta,phi);
+           state = obj.SCS(theta,phi) + obj.SCS(pi-theta,phi);
            n = sum( abs(state).^2 );
            state = state/(n^0.5);
         end
