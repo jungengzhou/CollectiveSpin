@@ -1,49 +1,48 @@
-function [Q, h,is2DView] = bloch(state, views)
-    % calculate the Husimi-Q function and plot
-    Q = HusimiQ(state);
-    % Check if views is provided and is a valid string
+function [dis, h] = bloch(state, distribution, views)
+    % Visualization the state or operator with Husimi-Q or Winger distribution 
+    % distribution: "Husimi"(default)  or "Wigner"
+    % views: "X", "Y", "Z",  plot the 3D views when 
+    % Thanks for the colormap provided by Yi Shen
+    % By Jungeng Zhou, updated 2025-01-13.
+    % https://github.com/jungengzhou/CollectiveSpin/tree/main
+
+    % check the input type of state
+    shape = size(state);
+    if shape(2) == 1
+        state = state*state';
+    elseif shape(2) == shape(1)
+    else
+        error("Wrong input, the shape of state should be a vector or a square matrix");
+    end
+
+    % Set the default value of distribution to "Husimi"
+    if nargin < 2 || isempty(distribution)
+        distribution = "Husimi";
+    end
+    
     is2DView = false;
-    if nargin > 1 % && ischar(views) 
-        is2DView = strcmpi(views, {'X', 'Y', 'Z'});
+
+    % Determines if the views argument exists and is a character, and checks if it is one of 'X', 'Y', 'Z'
+    if nargin > 2 && ischar(views)
+        is2DView = any(strcmpi(views, {'X', 'Y', 'Z'}));
         if ~is2DView
             warning("Wrong views handling in code logic. Only X/Y/Z handling shown in example.");
         end
     end
-    h = myplot(Q, is2DView);
+
+    % Calculates the Husimi or Wigner distribution based on the distribution parameter
+    if strcmpi(distribution, "Husimi")
+        dis = HusimiQ_spin(state);
+    elseif strcmpi(distribution, "Wigner")
+        dis = Wigner_spin(state);
+    else
+        error("Wrong distribution in code, only Husimi/Wigner is supported.");
+    end
+
+    % Plot the Bloch Sphere
+    h = myplot(dis, is2DView);
 end
 
-% (HusimiQ function remains unchanged)
-function Q = HusimiQ(state)
-    shape = size(state);
-    N = shape(1,1)-1;
-    sys = DickeTools(N);
-    
-    n = 100;     % Husimi grid points
-    theta = linspace(0,pi,n);
-    phi = linspace(0,2*pi,n);
-    SCS = zeros(N+1,1,n,n);
-    
-    if shape(2) == 1
-        for i = 1:n
-            for j = 1:n
-                SCS(:,:,i,j) = sys.SCS(theta(i),phi(j));
-                Q(i,j) = abs(SCS(:,:,i,j)'*state)^2; % Husimi-Q function for vector
-            end
-        end
-    elseif shape(1) == shape(2)
-        for i = 1:n
-            for j = 1:n
-                SCS(:,:,i,j) = sys.SCS(theta(i),phi(j));
-                rhoc = SCS(:,:,i,j)*SCS(:,:,i,j)';
-                Q(i,j) = trace(rhoc*state); % Husimi-Q function for density matrix
-            end
-        end
-    else
-        error("Wrong input, the shape of state should be a vector or a square matrix");
-    end
-    
-    Q = real(Q);
-end
 
 function h = myplot(Q, is2DView)
     n = 100;     % Husimi grid points
@@ -114,17 +113,12 @@ function h = myplot(Q, is2DView)
         else
             warning("Wrong views handling in code logic. Only X/Y/Z handling shown in example.");
         end
-        % Note: The above if-elseif blocks are shown for illustration and need to be adjusted
-        % because is2DView is a boolean and not a string in this modified code.
-        % In a real scenario, you might pass an additional string variable or use a different logic.
     end
     
-    % (Colormap setting remains unchanged)
     % Set colormap
     colormap(mymap());
 end
 
-% (mymap function remains unchanged, but note it should be called separately to set the colormap)
 
 function cmap = mymap()
     aaa = 42; % Number of colors in the colormap
