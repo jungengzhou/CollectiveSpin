@@ -42,9 +42,13 @@ state = [[1.10635674e-10]
 % distribution: "Husimi"(default)  or "Wigner"
 % views: "X", "Y", "Z",  plot the 3D perspective when no input
 ```
-![Husimi-Q distribution of an arbitrary input state](fig/ESS.png) 
 
-![Wigner distribution of an arbitrary input state](fig/ESS_Wigner.png) 
+<table>
+    <tr>
+        <td><center><img src="fig/ESS.png"> Husimi-Q distribution of an arbitrary input state </center> </td>
+        <td><center><img src="fig/ESS_Wigner.png"> Wigner distribution of an arbitrary input state </center> </td>
+    </tr>
+</table>
 
 ### coherent state 
 ```matlab
@@ -58,8 +62,6 @@ SCS = sys.SCS(theta_SCS,phi_SCS);
 [Q1,figQ1] = bloch(SCS,"Husimi");
 
 ```
-
-![Husimi-Q distribution of SCS](fig/SCS.png) 
 
 
 ### spin squeezed state 
@@ -75,4 +77,10 @@ SSS = sys.SSS_opt(chit);
 
 ```
 
-![Husimi-Q distribution of SSS](fig/SSS.png) 
+
+<table>
+    <tr>
+        <td><center><img src="fig/SCS.png"> Husimi-Q distribution of SCS </center> </td>
+        <td><center><img src="fig/SSS.png"> Husimi-Q distribution of SSS </center> </td>
+    </tr>
+</table>
