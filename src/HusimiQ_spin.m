@@ -8,16 +8,17 @@ function Q = HusimiQ_spin(state)
     sys = CollectiveSpin(N);
     
     n = 100;     % grid points
-    theta = linspace(0,pi,n);
-    phi = linspace(0,2*pi,n);
-    SCS = zeros(N+1,1,n,n);
+    thetas = linspace(0,pi,n);
+    phis = linspace(0,2*pi,n);
     
     Q = zeros(n,n);
     wb=waitbar(0,'please wait');
     for i = 1:n
-        for j = 1:n
-            SCS(:,:,i,j) = sys.SCS(theta(i),phi(j));
-            rhoc = SCS(:,:,i,j)*SCS(:,:,i,j)';
+        theta = thetas(i);
+        parfor j = 1:n
+            phi = phis(j);
+            SCS = sys.SCS(theta,phi);
+            rhoc = SCS*SCS';
             Q(i,j) = trace(rhoc*state); % Husimi-Q function for density matrix
         end
         str=['calculation...',num2str(i/n*100),'%'];
