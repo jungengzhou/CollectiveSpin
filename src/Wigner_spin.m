@@ -32,7 +32,7 @@ function W = Wigner_spin(Op)
     % Create a waitbar to show progress
     wb=waitbar(0,'please wait');
     for i = 1:n
-        for j = 1:n
+        parfor j = 1:n
             % Retrieve theta and phi values for the current grid point
             theta = thetas(i);
             phi = phis(j);

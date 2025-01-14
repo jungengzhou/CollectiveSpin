@@ -11,14 +11,14 @@ The src (source code) folder provides basic codes including following three file
 * Bloch.m:      Drawing the quantum states (pure state/mixed state) and operators with Husimi-Q or Wigner distribution on Bloch sphere.
 * HusimiQ_spin.m: Husimi-Q distribution
 * Wigner_spin.m: Wigner distribution
-* Wigner3j.m: Compute the Wigner 3j symbol using the Racah formula, by Kobi (https://www.mathworks.com/matlabcentral/fileexchange/20619-wigner3j-symbol). 
-* harmonicY.m: Compute the Spherical harmonic function, by Javier Montalt Tordera (https://github.com/jmontalt/harmonicY/releases/tag/v2.0.1)
+* Wigner3j.m: Compute the Wigner 3j symbol using the Racah formula, by [Kobi](https://www.mathworks.com/matlabcentral/fileexchange/20619-wigner3j-symbol). 
+* harmonicY.m: Compute the Spherical harmonic function, by [Javier Montalt Tordera](https://github.com/jmontalt/harmonicY/releases/tag/v2.0.1)
 
+**Note:**  `parfor` is used for parallel computation when calculating the Wigner distributions, which is only efficient if the [Parallel Computing Toolbox](https://www.mathworks.com/products/parallel-computing.html) is installed.
 
 ## Examples of drawing states 
 
 ### an arbitrary input state vector or density matrix
-% Example1: For 
 
 ```matlab
 % Example1: For an arbitrary input state vector or density matrix
